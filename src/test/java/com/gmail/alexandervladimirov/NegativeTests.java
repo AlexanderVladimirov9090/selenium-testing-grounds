@@ -1,13 +1,13 @@
 package com.gmail.alexandervladimirov;
 
+import com.beust.jcommander.Parameter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 /**
  * Created on 12.06.18.
@@ -17,9 +17,39 @@ import org.testng.annotations.Test;
  */
 public class NegativeTests {
 
-    @Parameters({"username","password","expectedError"})
+    WebDriver driver;
+
+    /**
+     * Sets up the driver.
+     */
+    @Parameters({"browser"})
+    @BeforeMethod
+    public void setUp(@Optional("chrome") String browser) {
+        switch (browser) {
+            case "chrome":
+                System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver");
+                driver = new ChromeDriver();
+                driver.manage().window().maximize();
+                break;
+
+            case "firefox":
+                System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver");
+                driver = new FirefoxDriver();
+                driver.manage().window().maximize();
+                break;
+
+            default:
+                System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver");
+                driver = new ChromeDriver();
+                driver.manage().window().maximize();
+                break;
+        }
+
+    }
+
+    @Parameters({"username", "password", "expectedError"})
     @Test
-    public void invalidUserCredentials(String username, String password,String expectedError) {
+    public void invalidUserCredentials(String username, String password, String expectedError) {
         //Create Driver.
         System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver");
         WebDriver driver = new FirefoxDriver();
@@ -48,38 +78,6 @@ public class NegativeTests {
                         + "\n expectedMessage: "
                         + expectedError
                         + "\nare different!");
-
-        //Close Web Browser.
         driver.quit();
     }
-
-   /* @Test
-    public void incorrectPassword(){
-        //Create Driver.
-        System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver");
-        WebDriver driver = new FirefoxDriver();
-        driver.manage().window().maximize();
-        //Open the page.
-        String url = "http://the-internet.herokuapp.com/login";
-        driver.get(url);
-
-
-        //Enter username.
-        WebElement username = driver.findElement(By.id("username"));
-        username.sendKeys("tomsmith");
-        //Enter password.
-        WebElement password = driver.findElement(By.id("password"));
-        password.sendKeys("IncorrectPassword");
-        // Push login button.
-        WebElement loginButton = driver.findElement(By.className("radius"));
-        loginButton.click();
-
-        WebElement errorMessage = driver.findElement(By.xpath("//div[@class= 'flash error']"));
-        String expectedError = "Your password is invalid!\n×";
-        String actualError = errorMessage.getText();
-        Assert.assertEquals(actualError, expectedError);
-
-        //Close Web Browser.
-        driver.quit();
-    }*/
 }
