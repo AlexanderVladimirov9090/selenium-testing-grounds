@@ -43,12 +43,18 @@ public class PositiveTest {
 
         //Logout out button is visible.
         WebElement logoutButton = driver.findElement(By.xpath("//a[@class= 'button secondary radius']"));
-        Assert.assertTrue(logoutButton.isDisplayed(),"No logout is visible.");
+        Assert.assertTrue(logoutButton.isDisplayed(), "No logout is visible.");
+
         // Success message.
         WebElement successMessage = driver.findElement(By.id("flash"));
         String expectedMessage = "You logged into a secure area!\n×";
-        String actualMessage  = successMessage.getText();
-        Assert.assertEquals(actualMessage,expectedMessage);
+        String actualMessage = successMessage.getText();
+        Assert.assertTrue(actualMessage.contains(expectedMessage),
+                "actualMessage: "
+                        + actualMessage
+                        + "\n expectedMessage: "
+                        + expectedMessage
+                        + "\nare different!");
         //Close Web Browser.
         driver.quit();
     }

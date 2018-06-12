@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 /**
@@ -16,8 +17,9 @@ import org.testng.annotations.Test;
  */
 public class NegativeTests {
 
+    @Parameters({"username","password","expectedError"})
     @Test
-    public void invalidUser() {
+    public void invalidUserCredentials(String username, String password,String expectedError) {
         //Create Driver.
         System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver");
         WebDriver driver = new FirefoxDriver();
@@ -28,25 +30,30 @@ public class NegativeTests {
 
 
         //Enter username.
-        WebElement username = driver.findElement(By.id("username"));
-        username.sendKeys("ivalidUser");
+        WebElement usernameElement = driver.findElement(By.id("username"));
+        usernameElement.sendKeys(username);
         //Enter password.
-        WebElement password = driver.findElement(By.id("password"));
-        password.sendKeys("SuperSecretPassword!");
+        WebElement passwordElement = driver.findElement(By.id("password"));
+        passwordElement.sendKeys(password);
         // Push login button.
         WebElement loginButton = driver.findElement(By.className("radius"));
         loginButton.click();
 
         WebElement errorMessage = driver.findElement(By.xpath("//div[@class= 'flash error']"));
-        String expectedError = "Your username is invalid!\n×";
+        //String expectedError = "Your username is invalid!\n×";
         String actualError = errorMessage.getText();
-        Assert.assertEquals(actualError, expectedError);
+        Assert.assertTrue(actualError.contains(expectedError),
+                "actualMessage: "
+                        + actualError
+                        + "\n expectedMessage: "
+                        + expectedError
+                        + "\nare different!");
 
         //Close Web Browser.
         driver.quit();
     }
 
-    @Test
+   /* @Test
     public void incorrectPassword(){
         //Create Driver.
         System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver");
@@ -74,5 +81,5 @@ public class NegativeTests {
 
         //Close Web Browser.
         driver.quit();
-    }
+    }*/
 }
