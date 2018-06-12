@@ -1,19 +1,43 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
 
-<suite name="NegativeUsernameTest" verbose="1">
-    <test name="NegativeUsernameTest">
+<suite name="NegativeTest" verbose="1">
+    <test name="NegativeUsernameTestChrome">
         <parameter name="username" value="incorrect"/>
         <parameter name="password" value="SuperSecretPassword!"/>
         <parameter name="expectedError" value="Your username is invalid!"/>
+        <parameter name="browser" value="chrome"/>
         <classes>
             <class name="com.gmail.alexandervladimirov.NegativeTests"/>
         </classes>
     </test>
-    <test name="NegativePasswordTest">
+
+    <test name="NegativeUsernameTestFirefox">
+        <parameter name="username" value="incorrect"/>
+        <parameter name="password" value="SuperSecretPassword!"/>
+        <parameter name="expectedError" value="Your username is invalid!"/>
+        <parameter name="browser" value="firefox"/>
+        <classes>
+            <class name="com.gmail.alexandervladimirov.NegativeTests"/>
+        </classes>
+    </test>
+
+    <test name="NegativePasswordTestChrome">
         <parameter name="username" value="tomsmith"/>
         <parameter name="password" value="incorrectPassword"/>
         <parameter name="expectedError" value="Your password is invalid!"/>
-        
+        <parameter name="browser" value="chrome"/>
+
+        <classes>
+            <class name="com.gmail.alexandervladimirov.NegativeTests"/>
+        </classes>
+    </test>
+
+    <test name="NegativePasswordTestFirefox">
+        <parameter name="username" value="tomsmith"/>
+        <parameter name="password" value="incorrectPassword"/>
+        <parameter name="expectedError" value="Your password is invalid!"/>
+        <parameter name="browser" value="firefox"/>
+
         <classes>
             <class name="com.gmail.alexandervladimirov.NegativeTests"/>
         </classes>

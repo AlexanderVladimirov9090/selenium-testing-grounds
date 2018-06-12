@@ -50,10 +50,6 @@ public class NegativeTests {
     @Parameters({"username", "password", "expectedError"})
     @Test
     public void invalidUserCredentials(String username, String password, String expectedError) {
-        //Create Driver.
-        System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver");
-        WebDriver driver = new FirefoxDriver();
-        driver.manage().window().maximize();
         //Open the page.
         String url = "http://the-internet.herokuapp.com/login";
         driver.get(url);
