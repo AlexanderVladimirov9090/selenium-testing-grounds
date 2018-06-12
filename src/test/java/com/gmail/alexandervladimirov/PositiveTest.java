@@ -49,16 +49,7 @@ public class PositiveTest {
         String expectedMessage = "You logged into a secure area!\n×";
         String actualMessage  = successMessage.getText();
         Assert.assertEquals(actualMessage,expectedMessage);
-        sleep(3000L);
         //Close Web Browser.
         driver.quit();
-    }
-
-    private void sleep(Long sleepTime) {
-        try {
-            Thread.sleep(sleepTime);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }

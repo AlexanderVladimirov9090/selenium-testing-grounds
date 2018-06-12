@@ -40,17 +40,8 @@ public class NegativeTests {
         String expectedError = "Your username is invalid!\n×";
         String actualError = errorMessage.getText();
         Assert.assertEquals(actualError, expectedError);
-        sleep(3000L);
 
         //Close Web Browser.
         driver.quit();
-    }
-
-    private void sleep(Long sleepTime) {
-        try {
-            Thread.sleep(sleepTime);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }
