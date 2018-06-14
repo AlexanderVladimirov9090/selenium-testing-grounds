@@ -4,8 +4,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.Assert;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
 import java.util.concurrent.TimeUnit;
 
@@ -16,13 +17,39 @@ import java.util.concurrent.TimeUnit;
  * <alexandervladimirov1902@gmail.com>
  */
 public class PositiveTest {
+    WebDriver driver;
+
+    /**
+     * Sets up the driver.
+     */
+    @Parameters({"browser"})
+    @BeforeMethod
+    public void setUp(@Optional("chrome") String browser) {
+        switch (browser) {
+            case "chrome":
+                System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver");
+                driver = new ChromeDriver();
+                driver.manage().window().maximize();
+                break;
+
+            case "firefox":
+                System.setProperty("webdriver.gecko.driver", "src/main/resources/geckodriver");
+                driver = new FirefoxDriver();
+                driver.manage().window().maximize();
+                break;
+
+            default:
+                System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver");
+                driver = new ChromeDriver();
+                driver.manage().window().maximize();
+                break;
+        }
+
+    }
 
     @Test
     public void login() {
-        //Create Driver.
-        System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver");
-        WebDriver driver = new ChromeDriver();
-        driver.manage().window().maximize();
+
         driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
         //Open the page.
         String url = "http://the-internet.herokuapp.com/login";
@@ -58,7 +85,11 @@ public class PositiveTest {
                         + "\n expectedMessage: "
                         + expectedMessage
                         + "\nare different!");
-        //Close Web Browser.
+
+    }
+
+    @AfterMethod
+    public void quitDriver() {
         driver.quit();
     }
 }

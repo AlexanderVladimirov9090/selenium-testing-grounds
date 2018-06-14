@@ -46,7 +46,6 @@ public class NegativeTests {
         }
 
     }
-
     @Parameters({"username", "password", "expectedError"})
     @Test
     public void invalidUserCredentials(String username, String password, String expectedError) {
@@ -74,6 +73,10 @@ public class NegativeTests {
                         + "\n expectedMessage: "
                         + expectedError
                         + "\nare different!");
+    }
+
+    @AfterMethod
+    public void quitDriver(){
         driver.quit();
     }
 }
